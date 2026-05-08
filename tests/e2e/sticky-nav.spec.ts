@@ -18,21 +18,14 @@ test('sticky nav appears after hero and CTA scrolls to waitlist', async ({ page 
   expect(navTop).toBeLessThanOrEqual(2);
 
   await page.getByTestId('nav-cta').click();
-
-  // Wait until scroll settles (smooth scroll finishes or page is at max scroll)
   await page.waitForFunction(() => {
     const el = document.querySelector('#waitlist') as HTMLElement;
-    if (!el) return false;
-    const top = el.getBoundingClientRect().top;
-    const vh = window.innerHeight;
-    // #waitlist is visible in viewport (near top or page is at max scroll)
-    return top >= 0 && top < vh;
+    return el && Math.abs(el.getBoundingClientRect().top) < 80;
   }, { timeout: 3000 });
 
   const waitlistTop = await page.evaluate(() => {
     const el = document.querySelector('#waitlist') as HTMLElement;
     return el.getBoundingClientRect().top;
   });
-  expect(waitlistTop).toBeGreaterThanOrEqual(0);
-  expect(waitlistTop).toBeLessThan(page.viewportSize()!.height);
+  expect(Math.abs(waitlistTop)).toBeLessThan(80);
 });

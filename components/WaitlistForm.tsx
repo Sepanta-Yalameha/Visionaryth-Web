@@ -43,7 +43,7 @@ export default function WaitlistForm() {
     <section
       id="waitlist"
       data-testid="waitlist"
-      className="w-full px-6 py-24 sm:px-12 md:px-20"
+      className="flex w-full min-h-screen flex-col justify-center px-6 py-24 sm:px-12 md:px-20"
     >
       <div className="mx-auto max-w-3xl text-center">
         <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
