@@ -23,7 +23,8 @@ test('mobile: hero is roughly 100svh and canvas paints', async ({ page }) => {
   expect(isPainted).toBe(true);
 });
 
-test('mobile: canvas variant is "mobile"', async ({ page }) => {
+test('mobile: canvas variant is "mobile"', async ({ page, browserName }, testInfo) => {
+  test.skip(testInfo.project.name !== 'chromium-mobile', 'variant detection depends on mobile viewport');
   await page.goto('/');
   await page.waitForTimeout(1000);
   const variant = await page.getByTestId('hero-canvas').getAttribute('data-variant');
@@ -33,7 +34,7 @@ test('mobile: canvas variant is "mobile"', async ({ page }) => {
 test('mobile: nav fits one row, no horizontal overflow', async ({ page }) => {
   await page.goto('/');
   await page.evaluate(
-    () => window.scrollTo({ top: window.innerHeight * 3.5, behavior: 'instant' as ScrollBehavior })
+    () => window.scrollTo({ top: window.innerHeight * 4.5, behavior: 'instant' as ScrollBehavior })
   );
   await page.waitForTimeout(400);
 
