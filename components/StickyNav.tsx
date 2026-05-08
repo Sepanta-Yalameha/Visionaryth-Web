@@ -4,7 +4,7 @@ export default function StickyNav() {
   return (
     <nav
       data-testid="sticky-nav"
-      className="sticky top-0 z-40 w-full backdrop-blur"
+      className="fixed top-0 z-40 w-full backdrop-blur"
       style={{ background: 'color-mix(in srgb, var(--color-bg) 80%, transparent)' }}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
