@@ -1,5 +1,3 @@
-import Logo from './Logo';
-
 export default function StickyNav() {
   return (
     <nav
@@ -8,8 +6,12 @@ export default function StickyNav() {
       style={{ background: 'color-mix(in srgb, var(--color-bg) 80%, transparent)' }}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <a href="#hero" aria-label="Visionaryth home" className="flex items-center">
-          <Logo className="h-8 w-auto" />
+        <a
+          href="#hero"
+          aria-label="Visionaryth home"
+          className="text-lg font-semibold tracking-tight text-black"
+        >
+          Visionaryth
         </a>
         <a
           href="#waitlist"

@@ -1,10 +1,10 @@
 # Visionaryth Web — agent notes
 
 ## Stack
-Next.js 15 (App Router), TypeScript, Tailwind v4 (CSS-first via `@theme`), Poppins via `next/font`, GSAP 3 + ScrollTrigger, zod, Playwright.
+Next.js 15 (App Router), TypeScript, Tailwind v4 (CSS-first via `@theme`), Poppins via `next/font`, zod, Playwright.
 
 ## Brand tokens
-- Background: `#D6EFFF` (`--color-bg`)
+- Background: `#D5E9FC` (`--color-bg`)
 - Accent: `#31A2FF` (`--color-accent`)
 - Text: `#000` (`--color-ink`)
 - Font family: Poppins (`--font-poppins`)
@@ -21,15 +21,16 @@ To regenerate after replacing the source MP4:
 Frames are committed as static assets so deploys don't need ffmpeg. If we ever want to stop committing them: add ffmpeg as a build-time install on Vercel + run `extract-frames.sh` in a `prebuild` script.
 
 ## Hero animation invariants
-- Single `ScrollTrigger` in `components/Hero.tsx` pins the hero AND drives both the canvas frame index AND the overlay opacity from one `onUpdate`. Do NOT split this into two ScrollTriggers — they desync subtly on iOS Safari.
-- Hero pin range is `+=300%`, so the hero consumes `100% + 300% = 400%` of viewport height in document scroll before un-pinning. Tests that need to scroll past the hero must scroll to at least `window.innerHeight * 4` (use 4.5 for safety margin).
-- Hero uses `100svh`, not `100vh`, to avoid iOS Safari toolbar resize during pinning.
-- `prefers-reduced-motion` users skip the pin entirely and see only the last frame (full-opacity overlay stays visible).
+- Pinning is pure CSS: `components/Hero.tsx` renders an outer `data-testid="hero-scroller"` div sized to `400svh` containing a `position: sticky; top: 0` inner `<section data-testid="hero">` of `100svh`. No GSAP, no pin spacer — the sticky child stays glued to the viewport top until the parent's bottom edge passes, giving exactly `300svh` of scroll-through.
+- A single `useLayoutEffect` registers one passive `scroll` listener (rAF-throttled) that derives `progress = clamp(-scroller.getBoundingClientRect().top / (scroller.offsetHeight - innerHeight), 0, 1)` and feeds both the canvas frame index AND the overlay opacity from the same value — never split this; they must come from one source.
+- Tests that need to scroll past the hero must scroll to at least `window.innerHeight * 3` (un-pin point) — use `* 4.5` for safety margin past the nav.
+- Hero uses `100svh` (and the scroller uses `400svh`), not `100vh`, to avoid iOS Safari toolbar resize during pinning.
+- `prefers-reduced-motion` users skip the listener entirely and see only the last frame (full-opacity overlay stays visible).
 - Saved-data / 2g users also fall back to the last-frame poster.
 - Canvas DPR is capped at 2 to keep memory under control on high-density mobile.
 
 ## Sticky nav
-Rendered AFTER `<Hero />` in `app/page.tsx`. Uses `position: sticky; top: 0` — pure CSS, no JS scroll listeners. While the hero is pinned, the nav is below the fold; once the hero un-pins, the nav becomes the topmost sticky element. Backdrop is `color-mix(in srgb, var(--color-bg) 80%, transparent)` + `backdrop-blur`.
+Rendered AFTER `<Hero />` in `app/page.tsx` — i.e. as a sibling of the hero-scroller wrapper. Uses `position: sticky; top: 0` — pure CSS, no JS scroll listeners. While the hero-scroller occupies the viewport, the nav is below the fold; once it un-pins, the nav becomes the topmost sticky element. Backdrop is `color-mix(in srgb, var(--color-bg) 80%, transparent)` + `backdrop-blur`.
 
 ## Waitlist
 - `WaitlistForm` (`components/WaitlistForm.tsx`) is a client component with `noValidate` so our zod check is the source of truth, not the browser's native validator.

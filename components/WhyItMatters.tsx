@@ -9,7 +9,7 @@ export default function WhyItMatters() {
     <section
       id="why-it-matters"
       data-testid="why-it-matters"
-      className="w-full px-6 py-24 sm:px-12 md:px-20"
+      className="w-full px-6 pt-24 pb-12 sm:px-12 md:px-20"
     >
       <div className="mx-auto max-w-7xl">
         <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
