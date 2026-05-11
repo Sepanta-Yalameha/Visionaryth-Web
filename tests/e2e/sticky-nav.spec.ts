@@ -6,7 +6,7 @@ test('sticky nav appears after hero and CTA scrolls to waitlist', async ({ page 
 
   await page.waitForTimeout(300);
 
-  const pastHero = await page.evaluate(() => window.innerHeight * 6.5);
+  const pastHero = await page.evaluate(() => window.innerHeight * 9.5);
   await page.evaluate(
     (y) => window.scrollTo({ top: y, behavior: 'instant' as ScrollBehavior }),
     pastHero
