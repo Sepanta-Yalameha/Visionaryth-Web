@@ -34,7 +34,7 @@ test('mobile: canvas variant is "mobile"', async ({ page, browserName }, testInf
 test('mobile: nav fits one row, no horizontal overflow', async ({ page }) => {
   await page.goto('/');
   await page.evaluate(
-    () => window.scrollTo({ top: window.innerHeight * 4.5, behavior: 'instant' as ScrollBehavior })
+    () => window.scrollTo({ top: window.innerHeight * 6.5, behavior: 'instant' as ScrollBehavior })
   );
   await page.waitForTimeout(400);
 

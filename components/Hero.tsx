@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createFrameController } from '@/lib/scroll-frames';
 import { detectVariant } from '@/lib/frames';
 
-const PIN_MULTIPLIER = 3;
+const PIN_MULTIPLIER = 5;
 const FADE_END_PROGRESS = 0.2;
 
 export default function Hero() {

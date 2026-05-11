@@ -19,7 +19,7 @@ test('hero canvas paints frames as user scrolls', async ({ page }) => {
   await expect(canvas).toBeVisible();
   await page.waitForTimeout(1000);
 
-  const pinPx = await page.evaluate(() => window.innerHeight * 3);
+  const pinPx = await page.evaluate(() => window.innerHeight * 5);
 
   for (const t of SCROLL_STEPS) {
     await page.evaluate((y) => window.scrollTo({ top: y, behavior: 'instant' as ScrollBehavior }), t * pinPx);

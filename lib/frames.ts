@@ -1,5 +1,5 @@
 export const FRAME_COUNTS = {
-  desktop: 301,
+  desktop: 241,
   mobile: 241,
 } as const;
 
